@@ -297,8 +297,16 @@ async function run(fn, ...args){
   try {
     // text/plain = "simple request" (tiada CORS preflight) — Apps Script membalas dengan JSON
     const res = await fetch(API, { method: 'POST', body: JSON.stringify({ fn, args, akses: S.akses }), redirect: 'follow' });
-    r = await res.json();
-  } catch(e) { throw new Error('Tidak dapat menghubungi server. Semak sambungan internet.'); }
+    const txt = await res.text();
+    try { r = JSON.parse(txt); }
+    catch(x) {
+      throw new Error(/doPost/i.test(txt) ? 'Server belum dikemas kini (tiada doPost). Paste Code.gs terbaru & Deploy > Manage deployments > New version.'
+        : /accounts\.google|ServiceLogin|signin/i.test(txt) ? 'Deployment perlu log masuk Google. Tetapkan Web app: Execute as "Me", Who has access "Anyone".'
+        : 'Server tidak pulangkan data yang sah (' + res.status + '). Semak URL /exec dalam config.js & tetapan deployment.');
+    }
+  } catch(e) {
+    throw (e.message && /Server|Deployment/.test(e.message)) ? e : new Error('Tidak dapat menghubungi server. Semak internet & URL /exec dalam config.js.');
+  }
   if (!r.ok) {
     const e = new Error(r.error || 'Ralat server.');
     if (r.code === 'AKSES') { e.akses = true; setTimeout(() => gate('Kod akses telah ditukar atau tidak sah. Sila masukkan kod baru.'), 0); }
