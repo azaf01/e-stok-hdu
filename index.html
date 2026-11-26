@@ -144,12 +144,12 @@ body.locked main{padding-bottom:30px}
 .la{display:flex;gap:4px;justify-content:center;margin-top:4px}.la span{font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;color:#fff}
 .zbtns{display:grid;gap:8px;margin:10px 0}
 .zlabels{display:flex;flex-direction:column;align-items:center;gap:10px}
-.zl{display:flex;align-items:center;gap:2.5mm;padding:2mm 2.5mm;background:#fff;border:1px dashed #94a3b8;border-radius:6px;overflow:hidden;color:#000}
-.zl .lq{flex:none}.zl .lt{flex:1;min-width:0;text-align:left}
-.zl .lh{margin:0;color:#000;font-size:calc(2.1mm * var(--k,1));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.zl .ln{font-size:calc(3.3mm * var(--k,1));line-height:1.15;max-height:calc(7.8mm * var(--k,1));overflow:hidden;margin:.4mm 0}
-.zl .lk{font-size:calc(2.4mm * var(--k,1));color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.zl .la{justify-content:flex-start;margin-top:1mm}.zl .la span{font-size:calc(2.1mm * var(--k,1));padding:.3mm 1.4mm;background:#000!important;white-space:nowrap}.zl .lf{display:none}
+.zl{display:flex;align-items:center;gap:2mm;padding:1.2mm 1.8mm;background:#fff;border:1px dashed #94a3b8;border-radius:6px;overflow:hidden;color:#000;box-sizing:border-box}
+.zl .lq{flex:none}.zl .lt{flex:1;min-width:0;text-align:left;color:#000}
+.zl .zh{font-size:calc(2.3mm * var(--k,1));font-weight:800;letter-spacing:.2mm;color:#000;white-space:nowrap;overflow:hidden}
+.zl .zn{font-size:calc(4.1mm * var(--k,1));font-weight:900;line-height:1.08;color:#000;margin:.6mm 0 .8mm;max-height:calc(8.9mm * var(--k,1));overflow:hidden;overflow-wrap:anywhere}
+.zl .zk{font-size:calc(2.9mm * var(--k,1));font-weight:700;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zl .zb{display:inline-block;margin-top:1mm;border:.35mm solid #000;border-radius:.8mm;padding:.15mm .8mm;font-size:calc(2.1mm * var(--k,1));font-weight:900;color:#000;white-space:nowrap}
 .la .in{background:#16a34a}.la .out{background:#dc2626}.lf{font-size:9px;color:#64748b;margin-top:2px}
 @media(max-width:520px){.bar{grid-template-columns:1fr 1fr}.bar input{grid-column:1/-1}.stat b{font-size:22px}}
 @media print{
@@ -159,7 +159,10 @@ body.locked main{padding-bottom:30px}
   body.printlbl .ov{position:static;background:none;display:block}
   body.printlbl .modal{max-height:none;overflow:visible;padding:0;border-radius:0;max-width:none}
   body.printlbl .modal:before{display:none}
+  body.printz > *:not(#ovl){display:none!important}
+  body.printz .mh,body.printz .zbtns,body.printz details{display:none!important}
   body.printz .zlabels{display:block}
+  body.printz .zl{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   body.printz .zl{border:0;border-radius:0;page-break-after:always;break-after:page;margin:0}
   body.printz .zl:last-child{page-break-after:auto;break-after:auto}
   .lbl{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -1126,26 +1129,29 @@ function admQr(){
 function zSize(P){ if (P.z === 'custom') return [P.w, P.h]; const [w, h] = P.z.split('x').map(Number); return [w, h]; }
 const zTxt = s => String(s == null ? '' : s).replace(/[\^~\\]/g, ' ').replace(/\s+/g, ' ').trim();
 
-/** Jana ZPL untuk Zebra 203 dpi (GK420t): QR kiri + teks kanan */
+/** Jana ZPL untuk Zebra 203 dpi (GK420t): QR kiri + teks kanan (hitam penuh, tanpa latar) */
 function zplFor(items, P){
   const [wmm, hmm] = zSize(P), D = 8; // 8 dot/mm = 203 dpi
   const W = Math.round(wmm * D), H = Math.round(hmm * D), copies = P.copies || 1;
   return items.map(i => {
     const url = qrUrl(i.kod), n = QR.encode(url).size;
-    const mag = Math.max(1, Math.min(10, Math.floor((H - 28) / n)));
-    const qs = n * mag, qx = 14, qy = Math.max(4, Math.round((H - qs) / 2) - 8);
-    const tx = qx + qs + 16, tw = Math.max(60, W - tx - 12);
-    const f = Math.max(18, Math.min(44, Math.round(H / 8))), fs = Math.max(14, Math.round(f * 0.68));
-    let y = Math.max(10, Math.round(H * 0.07));
-    const out = ['^XA', '^CI28', `^PW${W}`, `^LL${H}`, '^LH0,0',
+    const maxQ = Math.min(H - 20, Math.round(W * 0.48));
+    const mag = Math.max(1, Math.min(10, Math.floor(maxQ / n)));
+    const qs = n * mag, qx = 12, qy = Math.max(2, Math.round((H - qs) / 2) - 6);
+    const tx = qx + qs + 14, tw = Math.max(60, W - tx - 8);
+    const k = Math.max(0.75, Math.min(2.2, hmm / 30, tw / 168));
+    const fh = Math.round(18 * k), fn = Math.round(33 * k), fk = Math.round(23 * k), fb = Math.round(18 * k);
+    let y = Math.max(8, Math.round(H * 0.08));
+    const out = ['^XA', '^CI28', '^PR3', `^PW${W}`, `^LL${H}`, '^LH0,0',
       `^FO${qx},${qy}^BQN,2,${mag}^FDMA,${url}^FS`,
-      `^FO${tx},${y}^A0N,${fs},${fs}^FDe-Stok HDU - HSAS^FS`];
-    y += fs + 6;
-    out.push(`^FO${tx},${y}^A0N,${f},${f}^FB${tw},2,2,L,0^FD${zTxt(i.nama)}^FS`); y += f * 2 + 6;
-    out.push(`^FO${tx},${y}^A0N,${fs},${fs}^FB${tw},1,0,L,0^FD${zTxt(i.kod)}${i.unit ? ' - ' + zTxt(i.unit) : ''}^FS`); y += fs + 4;
-    if (i.lokasi && y + fs * 2 + 10 < H) { out.push(`^FO${tx},${y}^A0N,${fs},${fs}^FB${tw},1,0,L,0^FD${zTxt(i.lokasi)}^FS`); y += fs + 4; }
-    const by = H - fs - 14, bw = Math.min(tw, Math.round(fs * 9.5));
-    if (by > y) out.push(`^FO${tx},${by - 4}^GB${bw},${fs + 8},${fs + 8}^FS`, `^FO${tx},${by}^A0N,${fs},${fs}^FR^FB${bw},1,0,C,0^FDMASUK / KELUAR^FS`);
+      `^FO${tx},${y}^A0N,${fh},${fh}^FDHDU HSAS^FS`];
+    y += fh + 6;
+    out.push(`^FO${tx},${y}^A0N,${fn},${fn}^FB${tw},2,0,L,0^FD${zTxt(i.nama)}^FS`); y += fn * 2 + 4;
+    out.push(`^FO${tx},${y}^A0N,${fk},${fk}^FB${tw},1,0,L,0^FD${zTxt(i.kod)}${i.unit ? ' - ' + zTxt(i.unit) : ''}^FS`); y += fk + 4;
+    const by = H - fb - 16;
+    if (i.lokasi && hmm >= 30 && y + fk < by - 4) { out.push(`^FO${tx},${y}^A0N,${fk},${fk}^FB${tw},1,0,L,0^FD${zTxt(i.lokasi)}^FS`); y += fk + 4; }
+    const bw = Math.min(tw, Math.round(fb * 8.6));
+    out.push(`^FO${tx},${by - 5}^GB${bw},${fb + 10},2^FS`, `^FO${tx},${by}^A0N,${fb},${fb}^FB${bw},1,0,C,0^FDMASUK / KELUAR^FS`);
     out.push(`^PQ${copies},0,1,Y`, '^XZ');
     return out.join('\n');
   }).join('\n');
@@ -1182,14 +1188,16 @@ function printLabels(kods){
   if (P.mode === 'zebra') {
     const [w, h] = zSize(P), copies = P.copies || 1;
     const st = document.createElement('style'); st.id = 'pagesize';
-    const k = Math.max(0.8, Math.min(2.2, h / 30, (w - Math.max(10, h - 6)) / 26));
-    st.textContent = `@media print{@page{size:${w}mm ${h}mm;margin:0}} .zl{width:${w}mm;height:${h}mm;--k:${k.toFixed(2)}} .zl .lq{width:${Math.max(10, h - 6)}mm}`;
+    const qmm = Math.max(10, Math.min(h - 7, w * 0.48)), k = Math.max(0.75, Math.min(2.2, h / 30, (w - qmm - 6) / 21));
+    // tinggi kandungan 1 mm kurang daripada sticker: elak limpahan yang menyebabkan sticker kosong selang-seli
+    st.textContent = `@media print{@page{size:${w}mm ${h}mm;margin:0}html,body{width:${w}mm;margin:0!important;padding:0!important}}
+      .zl{width:${w}mm;height:${(h - 1).toFixed(1)}mm;--k:${k.toFixed(2)}} .zl .lq{width:${qmm.toFixed(1)}mm}`;
     document.head.appendChild(st);
     const many = items.flatMap(i => Array(copies).fill(i));
     const zBody = i => `<div class="lq">${QR.svg(qrUrl(i.kod), 1)}</div>
-      <div class="lt"><div class="lh">e-Stok HDU · HSAS</div><div class="ln">${esc(i.nama)}</div>
-        <div class="lk">${esc(i.kod)}${i.unit ? ' · ' + esc(i.unit) : ''}</div>${i.lokasi ? `<div class="lk">${esc(i.lokasi)}</div>` : ''}
-        <div class="la"><span>MASUK / KELUAR</span></div></div>`;
+      <div class="lt"><div class="zh">HDU HSAS</div><div class="zn">${esc(i.nama)}</div>
+        <div class="zk">${esc(i.kod)}${i.unit ? ' · ' + esc(i.unit) : ''}</div>${i.lokasi && h >= 30 ? `<div class="zk" style="font-weight:600">${esc(i.lokasi)}</div>` : ''}
+        <div class="zb">MASUK / KELUAR</div></div>`;
     modal(`<div class="mh np"><div><b>Sticker Zebra ${w} × ${h} mm</b><br><span class="mu">${items.length} item × ${copies} salinan = ${many.length} sticker</span></div><button class="x" data-close>×</button></div>
       <div class="np zbtns">
         <button class="btn" id="zp1">🖨️ Cetak (driver ZDesigner)</button>
@@ -1199,7 +1207,8 @@ function printLabels(kods){
       <details class="np" style="margin:4px 0 10px"><summary class="mu" style="cursor:pointer">Tetapan printer GK420t (baca sekali)</summary>
         <div class="info" style="font-size:13px">• <b>Cetak (driver)</b>: Printer → <b>ZDesigner GK420t</b>, Paper size <b>${w} × ${h} mm</b>, Margin <b>None</b>, Scale <b>100%</b>, matikan <i>Headers and footers</i>.<br>
         • Dalam <i>Printing Preferences</i> driver: Page Setup = ${w} × ${h} mm, Orientation Landscape jika perlu.<br>
-        • Jika sticker tersasar / langkau: tekan & tahan butang FEED sehingga lampu berkelip <b>sekali</b>, lepaskan — printer akan kalibrasi saiz sticker.<br>
+        • <b>Sticker kosong selang-seli?</b> Paper size dalam dialog cetak / driver tidak sama dengan sticker. Dalam ZDesigner <i>Printing Preferences › Page Setup › Stocks › New</i>: Width ${w} mm, Height ${h} mm, Media <i>Labels with gaps</i>, kemudian pilih saiz itu dalam dialog cetak.<br>
+        • Kemudian tekan & tahan butang FEED sehingga lampu berkelip <b>sekali</b>, lepaskan — printer kalibrasi saiz sticker.<br>
         • <b>Hantar terus ZPL</b> paling tepat & laju — perlu apps percuma <b>Zebra Browser Print</b> dipasang pada PC yang disambung ke printer (Chrome/Edge).</div></details>
       <div class="zlabels">${many.map(i => `<div class="zl">${zBody(i)}</div>`).join('')}</div>`);
     document.body.classList.add('printlbl', 'printz');
