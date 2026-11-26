@@ -3,20 +3,29 @@
 <head>
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="e-Stok HDU">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>e-Stok HDU — HSAS</title>
 <style>
 :root{--p:#0f766e;--p2:#115e59;--pl:#ccfbf1;--bg:#f1f5f9;--card:#fff;--tx:#0f172a;--mu:#64748b;--bd:#e2e8f0;--red:#b91c1c;--redl:#fee2e2;--amb:#b45309;--ambl:#fef3c7;--grn:#15803d;--grnl:#dcfce7}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.4}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.4;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 .top{position:sticky;top:0;z-index:10}
-header{background:var(--p);color:#fff;padding:12px 16px}
-header h1{margin:0;font-size:18px;letter-spacing:.2px}
+header{background:var(--p);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;gap:10px}
+header .hl{flex:1;min-width:0}
+header h1{margin:0;font-size:17px;letter-spacing:.2px}
+header .logo{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:18px;flex:none}
 header small{opacity:.85;font-size:12px}
-nav{display:flex;background:#fff;border-bottom:1px solid var(--bd)}
-nav button{flex:1;border:0;background:none;padding:11px 4px;font-size:14px;color:var(--mu);border-bottom:3px solid transparent;cursor:pointer;font-family:inherit}
-nav button.on{color:var(--p);border-color:var(--p);font-weight:600}
-main{max-width:980px;margin:0 auto;padding:14px 12px 60px}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;background:rgba(255,255,255,.97);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -4px 14px rgba(15,23,42,.06);backdrop-filter:blur(8px)}
+nav button{flex:1;max-width:160px;border:0;background:none;padding:8px 2px 7px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;color:var(--mu);cursor:pointer;font-family:inherit;font-weight:500}
+nav button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--p);font-weight:700}
+nav button.on svg{stroke-width:2.3}
+main{max-width:980px;margin:0 auto;padding:14px 12px calc(84px + env(safe-area-inset-bottom))}
 h2{font-size:16px;margin:18px 0 10px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
 .stat{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;cursor:pointer;text-align:left;font-family:inherit}
@@ -24,7 +33,9 @@ h2{font-size:16px;margin:18px 0 10px}
 .stat span{font-size:12px;color:var(--mu)}
 .stat.r b{color:var(--red)}.stat.a b{color:var(--amb)}
 .bar{display:grid;grid-template-columns:1fr auto auto;gap:8px;margin-bottom:10px}
-input,select,textarea{width:100%;padding:10px 11px;border:1px solid #cbd5e1;border-radius:9px;font-size:15px;font-family:inherit;background:#fff;color:var(--tx)}
+input,select,textarea{width:100%;min-height:46px;padding:11px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px;font-family:inherit;background:#fff;color:var(--tx);-webkit-appearance:none;appearance:none}
+select{background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 12px center;padding-right:32px}
+input[type=checkbox]{min-height:0;width:20px;height:20px;-webkit-appearance:checkbox;appearance:auto}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--pl);border-color:var(--p)}
 textarea{min-height:110px;resize:vertical}
 label{display:block;font-size:13px;font-weight:600;color:#334155;margin:12px 0 5px}
@@ -37,9 +48,10 @@ label{display:block;font-size:13px;font-weight:600;color:#334155;margin:12px 0 5
 .it .q{font-size:20px;font-weight:700}
 .bd{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-top:3px}
 .bd.OK{background:var(--grnl);color:var(--grn)}.bd.ADM{background:#ede9fe;color:#6d28d9}.bd.RENDAH{background:var(--ambl);color:var(--amb)}.bd.HABIS{background:var(--redl);color:var(--red)}.bd.X{background:#e2e8f0;color:#475569}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:9px;padding:11px 16px;font-size:15px;font-weight:600;cursor:pointer;background:var(--p);color:#fff;font-family:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:10px;padding:11px 16px;min-height:46px;font-size:15.5px;font-weight:600;cursor:pointer;background:var(--p);color:#fff;font-family:inherit}
 .btn:disabled{opacity:.55;cursor:wait}
-.btn.sec{background:#e2e8f0;color:var(--tx)}.btn.red{background:var(--red)}.btn.sm{padding:7px 11px;font-size:13px}
+.btn.sec{background:#e2e8f0;color:var(--tx)}.btn.red{background:var(--red)}.btn.sm{padding:7px 12px;font-size:13.5px;min-height:36px}
+.btn.del{background:var(--redl);color:var(--red)}
 .btn.full{width:100%}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#e2e8f0;padding:4px;border-radius:11px}
 .seg button{border:0;background:none;padding:10px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;color:var(--mu);font-family:inherit}
@@ -54,15 +66,17 @@ th{background:#f8fafc;font-size:12px;color:#475569;position:sticky;top:0}
 td.n,th.n{text-align:right}
 .tw{overflow:auto;border:1px solid var(--bd);border-radius:10px;max-height:65vh}
 .ov{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:50;display:flex;align-items:flex-end;justify-content:center}
-.modal{background:#fff;width:100%;max-width:760px;max-height:92vh;overflow:auto;border-radius:16px 16px 0 0;padding:16px}
+.modal{background:#fff;width:100%;max-width:760px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+.modal:before{content:'';display:block;width:40px;height:5px;border-radius:9px;background:#cbd5e1;margin:-6px auto 10px}
 @media(min-width:700px){.ov{align-items:center}.modal{border-radius:16px}}
 .mh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .x{border:0;background:#f1f5f9;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer;flex:none}
-.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0}
 .kv div{background:#f8fafc;border-radius:9px;padding:8px 10px}
 .kv span{display:block;font-size:11.5px;color:var(--mu)}
-.tg{font-weight:700;font-size:12px}.tg.KELUAR{color:var(--red)}.tg.TERIMA,.tg.BAKI.AWAL{color:var(--grn)}.tg.LARASAN{color:#7c3aed}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#0f172a;color:#fff;padding:11px 16px;border-radius:10px;z-index:99;font-size:14px;max-width:92vw;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.tg{font-weight:700;font-size:12px}
+b.tg{font-size:17px}.tg.KELUAR{color:var(--red)}.tg.TERIMA,.tg.BAKI.AWAL{color:var(--grn)}.tg.LARASAN{color:#7c3aed}
+.toast{position:fixed;left:50%;bottom:calc(78px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#0f172a;color:#fff;padding:11px 16px;border-radius:10px;z-index:99;font-size:14px;max-width:92vw;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 .toast.err{background:var(--red);color:#fff;font-weight:600}
 .warn{background:var(--ambl);color:#78350f;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px}
 .err{background:var(--redl);color:var(--red);border-radius:10px;padding:12px}
@@ -72,10 +86,45 @@ td.n,th.n{text-align:right}
 .chk input{width:auto}
 .ld{padding:40px;text-align:center;color:var(--mu)}
 .prt-only{display:none}
+/* ---- komponen mesra telefon ---- */
+.plist{background:#fff;border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+.prow{display:flex;align-items:center;gap:10px;width:100%;padding:12px 13px;border:0;border-top:1px solid var(--bd);background:#fff;text-align:left;font-family:inherit;font-size:15px;color:var(--tx)}
+.prow:first-child{border-top:0}
+button.prow{cursor:pointer}button.prow:active{background:#f8fafc}
+.pl{flex:1;min-width:0}.pl b{display:block;overflow-wrap:anywhere;line-height:1.3}
+.pl small,.pr small{color:var(--mu);font-size:12.5px;display:block;margin-top:2px}
+.pr{text-align:right;white-space:nowrap}.pr b{font-size:17px}
+.prow .ch{color:#94a3b8;font-size:22px;line-height:1;margin-left:-2px}
+.acts{display:flex;flex-direction:column;gap:6px}
+.sbar{display:flex;gap:8px;margin-bottom:8px}.sbar .btn{white-space:nowrap}
+.mgt{font-size:12px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin:18px 6px 7px}
+.mi{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:0;border-top:1px solid var(--bd);background:#fff;font-size:15.5px;text-align:left;color:var(--tx);font-family:inherit;cursor:pointer;text-decoration:none}
+.mi:first-child{border-top:0}.mi:active{background:#f8fafc}
+.mi .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:18px;flex:none}
+.mi .tx{flex:1;min-width:0;font-weight:600}.mi .tx small{display:block;color:var(--mu);font-size:12.5px;font-weight:400;margin-top:1px}
+.mi .ch{color:#94a3b8;font-size:22px}
+.mi.danger .tx{color:var(--red)}
+.ucard{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.ucard .av{width:42px;height:42px;border-radius:50%;background:var(--pl);color:var(--p2);display:grid;place-items:center;font-weight:800;font-size:18px;flex:none}
+.ucard small{display:block;color:var(--mu);font-size:12.5px}
+.subhead{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.subhead h2{margin:0;font-size:19px}
+.back{border:0;background:#e2e8f0;border-radius:999px;padding:8px 14px 8px 10px;min-height:38px;font-weight:600;font-size:14px;color:var(--tx);font-family:inherit;cursor:pointer;flex:none}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
+.tiles div{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:10px}
+.tiles span{display:block;font-size:11.5px;color:var(--mu)}.tiles b{font-size:15px}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:9px}
+.nums div{background:#f8fafc;border-radius:9px;padding:6px 4px;text-align:center}
+.nums span{display:block;font-size:10.5px;color:var(--mu)}.nums b{font-size:15px}.nums i{display:block;font-size:10.5px;color:var(--mu);font-style:normal}
+.rcard{padding:12px 13px;border-top:1px solid var(--bd)}.rcard:first-child{border-top:0}
+.rcard .top2{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.only-wide{display:none}
+@media(min-width:760px){.only-wide{display:block}.only-narrow{display:none}}
 body.locked nav,body.locked .foot{display:none}
+body.locked main{padding-bottom:30px}
 .gate{display:flex;justify-content:center;padding-top:6vh}.gate .box{max-width:360px;width:100%;text-align:center;padding:24px}
 .glogo{font-size:36px;margin-bottom:6px}
-.foot{text-align:center;font-size:12px;margin:0 0 30px}.foot a{color:var(--mu)}
+.foot{text-align:center;font-size:12px;margin:-60px 0 calc(90px + env(safe-area-inset-bottom))}.foot a{color:var(--mu)}
 .scan{background:linear-gradient(135deg,#0f766e,#115e59);color:#fff;border-radius:14px;padding:14px 16px;margin-bottom:12px}
 .scan .mu{color:#ccfbf1}
 .seg button small{display:block;font-size:11px;font-weight:500;opacity:.8}
@@ -93,13 +142,26 @@ body.locked nav,body.locked .foot{display:none}
 .ln{font-weight:800;font-size:13px;line-height:1.2;margin:2px 0}.labels.besar .ln{font-size:17px}.labels.kecil .ln{font-size:11px}
 .lk{font-size:10.5px;color:#334155}
 .la{display:flex;gap:4px;justify-content:center;margin-top:4px}.la span{font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;color:#fff}
+.zbtns{display:grid;gap:8px;margin:10px 0}
+.zlabels{display:flex;flex-direction:column;align-items:center;gap:10px}
+.zl{display:flex;align-items:center;gap:2.5mm;padding:2mm 2.5mm;background:#fff;border:1px dashed #94a3b8;border-radius:6px;overflow:hidden;color:#000}
+.zl .lq{flex:none}.zl .lt{flex:1;min-width:0;text-align:left}
+.zl .lh{margin:0;color:#000;font-size:calc(2.1mm * var(--k,1));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zl .ln{font-size:calc(3.3mm * var(--k,1));line-height:1.15;max-height:calc(7.8mm * var(--k,1));overflow:hidden;margin:.4mm 0}
+.zl .lk{font-size:calc(2.4mm * var(--k,1));color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zl .la{justify-content:flex-start;margin-top:1mm}.zl .la span{font-size:calc(2.1mm * var(--k,1));padding:.3mm 1.4mm;background:#000!important;white-space:nowrap}.zl .lf{display:none}
 .la .in{background:#16a34a}.la .out{background:#dc2626}.lf{font-size:9px;color:#64748b;margin-top:2px}
 @media(max-width:520px){.bar{grid-template-columns:1fr 1fr}.bar input{grid-column:1/-1}.stat b{font-size:22px}}
 @media print{
-  .top,.np,.toast{display:none!important}
+  .top,.np,.toast,nav{display:none!important}
+  .only-wide{display:block!important}.only-narrow{display:none!important}
   body.printlbl main{display:none!important}
   body.printlbl .ov{position:static;background:none;display:block}
   body.printlbl .modal{max-height:none;overflow:visible;padding:0;border-radius:0;max-width:none}
+  body.printlbl .modal:before{display:none}
+  body.printz .zlabels{display:block}
+  body.printz .zl{border:0;border-radius:0;page-break-after:always;break-after:page;margin:0}
+  body.printz .zl:last-child{page-break-after:auto;break-after:auto}
   .lbl{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   @page{size:A4;margin:8mm}
   body{background:#fff;font-size:11px}
@@ -112,16 +174,16 @@ body.locked nav,body.locked .foot{display:none}
 </head>
 <body>
 <div class="top">
-  <header><h1>e-Stok HDU</h1><small>Unit Hemodialisis · Hospital Shah Alam</small></header>
-  <nav id="nav">
-    <button data-t="senarai" class="on">Senarai</button>
-    <button data-t="rekod">Rekod</button>
-    <button data-t="laporan">Laporan</button>
-    <button data-t="admin">Admin</button>
-  </nav>
+  <header><div class="logo">📦</div><div class="hl"><h1>e-Stok HDU</h1><small>Unit Hemodialisis · Hospital Shah Alam</small></div></header>
 </div>
 <main id="view"><div class="ld">Memuatkan data…</div></main>
 <p class="np foot"><a href="#" id="kunci">Kunci peranti ini (padam kod akses)</a></p>
+<nav id="nav" class="np">
+  <button data-t="senarai" class="on"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg><span>Senarai</span></button>
+  <button data-t="rekod"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg><span>Rekod</span></button>
+  <button data-t="laporan"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Laporan</span></button>
+  <button data-t="admin"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Admin</span></button>
+</nav>
 <div id="ovl"></div>
 <script src="config.js"></script>
 <datalist id="stafList"></datalist>
@@ -349,6 +411,7 @@ const pegSel = (id, sel) => {
     (L.length ? '' : '<div class="mu" style="font-size:12px;margin-top:4px">Tiada staf aktif — admin perlu tambah di Admin › Urus staf.</div>');
 };
 const pegNama = id => { const p = (S.pegawai || []).find(x => x.id === String(id).toUpperCase()); return p ? p.nama : ''; };
+const sgn = (j, q) => j === 'KELUAR' ? '−' + fmtN(Math.abs(q)) : (j === 'LARASAN' ? (q > 0 ? '+' : q < 0 ? '−' : '') + fmtN(Math.abs(q)) : '+' + fmtN(q));
 const itemBy = k => S.items.find(i => i.kod === k);
 const stCls = i => i.aktif ? i.status : 'X';
 const stTxt = i => i.aktif ? i.status : 'TIDAK AKTIF';
@@ -459,11 +522,10 @@ function renderList(){
     </div>`).join('')
     : `<div class="box mu">${S.items.length ? 'Tiada item sepadan.' : 'Belum ada item. Admin boleh tambah item di tab Admin.'}</div>`;
   const r = $('#recent');
-  if (r) r.innerHTML = S.recent.length ? `<div class="tw"><table>
-      <tr><th>Masa</th><th>Item</th><th>Jenis</th><th class="n">Qty</th><th class="n">Baki</th><th>Oleh</th></tr>
-      ${S.recent.map(x => `<tr><td>${esc(x.masa)}</td><td>${esc(x.nama)}</td><td><span class="tg ${esc(x.jenis)}">${esc(x.jenis)}</span></td>
-        <td class="n">${fmtN(x.qty)}</td><td class="n">${fmtN(x.baki)}</td><td>${esc(x.oleh)}</td></tr>`).join('')}
-    </table></div>` : '<div class="mu">Tiada transaksi lagi.</div>';
+  if (r) r.innerHTML = S.recent.length ? `<div class="plist">${S.recent.map(x => `
+      <div class="prow"><div class="pl"><b>${esc(x.nama)}</b><small>${esc(x.masa)} · ${esc(x.oleh)}${x.pihak ? ' · ' + esc(x.pihak) : ''}</small></div>
+        <div class="pr"><b class="tg ${esc(x.jenis)}">${sgn(x.jenis, x.qty)}</b><small>Baki ${fmtN(x.baki)}</small></div></div>`).join('')}</div>`
+    : '<div class="box mu">Tiada transaksi lagi.</div>';
 }
 
 async function openItem(kod){
@@ -487,7 +549,17 @@ async function openItem(kod){
         <button class="btn sec sm" style="margin-top:6px" data-lbl="${esc(it.kod)}">Cetak label QR</button></div></div>` : ''}
       ${it.aktif ? `<div class="row2" style="margin:12px 0"><button class="btn grn" data-go="TERIMA">＋ MASUK</button><button class="btn red" data-go="KELUAR">－ KELUAR</button></div>` : ''}
       <h2>Kad stok — Transaksi (${d.rows.length} terkini)</h2>
-      ${d.rows.length ? `<div class="tw"><table class="kps">
+      ${d.rows.length ? `<div class="plist only-narrow">${d.rows.map(r => {
+          const awal = r.jenis === 'BAKI AWAL';
+          const q = awal ? `<b>${fmtN(r.bq)}</b>` : r.tq !== '' ? `<b class="tg ${r.jenis === 'LARASAN' ? 'LARASAN' : 'TERIMA'}">+${fmtN(r.tq)}</b>` : `<b class="tg ${r.jenis === 'LARASAN' ? 'LARASAN' : 'KELUAR'}">−${fmtN(r.kq)}</b>`;
+          const rm = awal ? '' : r.tq !== '' ? `RM ${fmtRM(r.tjum)}${r.tseu !== '' ? ' (@' + fmtRM(r.tseu) + ')' : ''}` : `RM ${fmtRM(r.kjum)}`;
+          return `<div class="rcard"><div class="top2">
+            <div class="pl"><b>${awal ? 'Baki dibawa ke hadapan' : esc(r.pihak || (r.jenis === 'KELUAR' ? 'Keluar' : r.jenis === 'LARASAN' ? 'Larasan stok' : 'Terima'))}</b>
+              <small>${esc(r.tarikh)} · <b style="display:inline;font-size:12.5px">${esc(r.peg)}</b>${r.ruj ? ' · ' + esc(r.ruj) : ''}${r.jenis === 'LARASAN' ? ' · <span class="tg LARASAN">LARASAN</span>' : ''}</small>
+              ${r.catatan ? `<small>${esc(r.catatan)}</small>` : ''}</div>
+            <div class="pr">${q}${rm ? `<small>${rm}</small>` : ''}</div></div>
+            <div class="mu" style="font-size:12.5px;margin-top:4px">Baki: <b style="color:var(--tx)">${fmtN(r.bq)}</b> · RM ${fmtRM(r.bjum)}</div></div>`; }).join('')}</div>
+        <div class="tw only-wide"><table class="kps">
         <tr><th rowspan="2">Tarikh</th><th rowspan="2">No. PK/BTB/<br>BPSS/BPSI/BPIN</th><th rowspan="2">Terima Daripada/<br>Keluar Kepada</th>
           <th colspan="3" class="c">TERIMAAN</th><th colspan="2" class="c">KELUARAN</th><th colspan="2" class="c">BAKI</th><th rowspan="2">Nama Pegawai</th></tr>
         <tr><th class="n">Kuantiti</th><th class="n">Seunit (RM)</th><th class="n">Jumlah (RM)</th><th class="n">Kuantiti</th><th class="n">Jumlah (RM)</th><th class="n">Kuantiti</th><th class="n">Jumlah (RM)</th></tr>
@@ -497,7 +569,7 @@ async function openItem(kod){
           <td class="n"><b>${fmtN(r.bq)}</b></td><td class="n">${fmtRM(r.bjum)}</td><td title="${esc(pegNama(r.peg))}"><b>${esc(r.peg)}</b></td></tr>`).join('')}</table></div>`
         : '<div class="mu">Tiada transaksi lagi.</div>'}`);
     document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { S.recJenis = b.dataset.go; S.recKod = it.kod; S.scan = it.kod; closeModal(); go('rekod'); });
-    document.querySelectorAll('[data-lbl]').forEach(b => b.onclick = () => { closeModal(); printLabels([it.kod], 'sederhana'); });
+    document.querySelectorAll('[data-lbl]').forEach(b => b.onclick = () => { closeModal(); printLabels([it.kod]); });
   } catch(e) { closeModal(); fail(e); }
 }
 
@@ -621,7 +693,7 @@ function vLaporan(){
   const ym = (S.report && S.report.ym) || `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   $('#view').innerHTML = `<div class="box np">
       <label>Bulan laporan</label>
-      <div class="row2"><input id="lym" type="month" value="${ym}"><button id="lbtn" class="btn">Jana laporan</button></div>
+      <div class="row2"><input id="lym" type="month" value="${ym}"><button id="lbtn" class="btn">Jana</button></div>
     </div><div id="lout" style="margin-top:12px"></div>`;
   $('#lbtn').onclick = genReport;
   if (S.report) showReport(); else genReport();
@@ -643,7 +715,21 @@ function showReport(){
       <div><b>Laporan ${bln}</b><br><span class="mu">Dijana: ${esc(d.dijana)} · ${d.rows.length} item</span></div>
       <button class="btn sec sm np" onclick="window.print()">Cetak / PDF</button>
     </div>
-    <div class="tw"><table>
+    <div class="tiles">
+      <div><span>Terima (RM)</span><b>${fmtRM(d.rows.reduce((a, r) => a + r.terimaRM, 0))}</b></div>
+      <div><span>Keluar (RM)</span><b>${fmtRM(d.rows.reduce((a, r) => a + r.keluarRM, 0))}</b></div>
+      <div><span>Nilai baki (RM)</span><b>${fmtRM(d.rows.reduce((a, r) => a + r.nilai, 0))}</b></div>
+    </div>
+    <div class="plist only-narrow">${d.rows.map(r => `<div class="rcard">
+      <div class="top2"><div class="pl"><b>${esc(r.nama)}</b><small>${esc(r.kod)} · ${esc(r.kategori || '-')}</small></div>
+        <span class="bd ${r.aktif ? esc(r.status) : 'X'}">${r.aktif ? esc(r.status) : 'TIDAK AKTIF'}</span></div>
+      <div class="nums">
+        <div><span>Terima</span><b style="color:var(--grn)">${r.terima ? fmtN(r.terima) : '–'}</b>${r.terima ? `<i>RM ${fmtRM(r.terimaRM)}</i>` : ''}</div>
+        <div><span>Keluar</span><b style="color:var(--red)">${r.keluar ? fmtN(r.keluar) : '–'}</b>${r.keluar ? `<i>RM ${fmtRM(r.keluarRM)}</i>` : ''}</div>
+        <div><span>Larasan</span><b style="color:#7c3aed">${r.larasan ? (r.larasan > 0 ? '+' : '') + fmtN(r.larasan) : '–'}</b></div>
+        <div><span>Baki</span><b>${fmtN(r.baki)}</b><i>${esc(r.unit)}</i></div>
+      </div></div>`).join('')}</div>
+    <div class="tw only-wide"><table>
       <tr><th>Kod</th><th>Perihal stok</th><th>Unit</th><th class="n">Terima</th><th class="n">Terima (RM)</th><th class="n">Keluar</th><th class="n">Keluar (RM)</th><th class="n">Larasan</th><th class="n">Baki semasa</th><th class="n">Nilai baki (RM)</th><th>Status</th></tr>
       ${d.rows.map(r => `<tr><td>${esc(r.kod)}</td><td>${esc(r.nama)}<br><span class="mu">${esc(r.kategori)}</span></td><td>${esc(r.unit)}</td>
         <td class="n">${r.terima ? fmtN(r.terima) : '-'}</td><td class="n">${r.terima ? fmtRM(r.terimaRM) : '-'}</td>
@@ -654,9 +740,9 @@ function showReport(){
         <th class="n">${fmtRM(d.rows.reduce((a, r) => a + r.keluarRM, 0))}</th><th></th><th></th><th class="n">${fmtRM(d.rows.reduce((a, r) => a + r.nilai, 0))}</th><th></th></tr>
     </table></div>
     <h2>Perlu tindakan (rendah / habis) — ${low.length} item</h2>
-    ${low.length ? `<div class="tw"><table><tr><th>Item</th><th class="n">Baki</th><th class="n">Minimum</th><th>Status</th></tr>
-      ${low.map(r => `<tr><td>${esc(r.nama)}</td><td class="n">${fmtN(r.baki)} ${esc(r.unit)}</td><td class="n">${fmtN(r.min)}</td><td><span class="bd ${esc(r.status)}">${esc(r.status)}</span></td></tr>`).join('')}
-    </table></div>` : '<div class="mu">Semua item mencukupi.</div>'}
+    ${low.length ? `<div class="plist">${low.map(r => `<div class="prow"><div class="pl"><b>${esc(r.nama)}</b><small>Minimum ${fmtN(r.min)} ${esc(r.unit)}</small></div>
+      <div class="pr"><b>${fmtN(r.baki)}</b> <small style="display:inline">${esc(r.unit)}</small><br><span class="bd ${esc(r.status)}">${esc(r.status)}</span></div></div>`).join('')}</div>`
+      : '<div class="box mu">Semua item mencukupi.</div>'}
     <p class="mu" style="font-size:12px">Baki semasa ialah baki pada masa laporan dijana. Larasan = beza baki fizikal (stock take) berbanding baki sistem. Nilai keluaran dikira ikut harga purata.</p>`;
 }
 
@@ -671,40 +757,56 @@ async function vAdmin(){
       S.isDefault = c.isDefault; S.sheetUrl = c.url; S.user = c.user; S.xlsx = c.xlsx;
     } catch(e) { saveTok(null); return vLogin(); }
   }
-  const warn = `<div class="mu np" style="margin-bottom:8px">Log masuk sebagai <b>${esc(S.user ? S.user.nama : '')}</b> (${esc(S.user ? S.user.id : '')})</div>` +
-    (S.isDefault ? '<div class="warn">Password anda masih password asal. Sila tukar di <b>Tukar password</b>.</div>' : '');
-  const menu = `<div class="grid-adm np">
-    <button class="btn ${S.adm === 'add' ? '' : 'sec'}" data-a="add">+ Tambah item</button>
-    <button class="btn ${S.adm === 'items' || S.adm === 'edit' ? '' : 'sec'}" data-a="items">Urus item</button>
-    <button class="btn ${S.adm === 'adjust' ? '' : 'sec'}" data-a="adjust">Larasan stok</button>
-    <button class="btn ${S.adm === 'qr' ? '' : 'sec'}" data-a="qr">Label QR item</button>
-    <button class="btn ${S.adm === 'staf' || S.adm === 'stafEdit' ? '' : 'sec'}" data-a="staf">Urus staf</button>
-    <button class="btn ${S.adm === 'io' ? '' : 'sec'}" data-a="io">Import / Export</button>
-    <button class="btn ${S.adm === 'akses' ? '' : 'sec'}" data-a="akses">Kod akses</button>
-    <button class="btn ${S.adm === 'set' ? '' : 'sec'}" data-a="set">Tetapan</button>
-    <button class="btn ${S.adm === 'pw' ? '' : 'sec'}" data-a="pw">Tukar password</button>
-    <button class="btn sec" data-a="logout">Log keluar</button>
-  </div>`;
-  $('#view').innerHTML = warn + menu + '<div id="adm"></div>' +
-    (S.sheetUrl ? `<p class="mu np" style="margin-top:16px">Fail data: <a href="${esc(S.sheetUrl)}" target="_blank">Buka Google Sheet</a> · <a href="#" id="recalc">Kira semula semua baki</a> · <a href="#" id="migpeg">Tukar nama pegawai lama → ID</a></p>` : '');
+  const warnPw = S.isDefault ? '<div class="warn">⚠️ Password anda masih password asal. Sila tukar di <b>Tukar password</b>.</div>' : '';
+  window.scrollTo(0, 0);
+  if (S.adm === 'menu') {
+    const it = (a, ic, bg, t, sub, extra) => `<button class="mi ${extra || ''}" data-a="${a}"><span class="ic" style="background:${bg}">${ic}</span><span class="tx">${t}${sub ? `<small>${sub}</small>` : ''}</span><span class="ch">›</span></button>`;
+    const u = S.user || { nama: '', id: '' };
+    $('#view').innerHTML = `
+      <div class="ucard"><div class="av">${esc((u.nama || u.id || '?').trim().charAt(0).toUpperCase())}</div>
+        <div style="flex:1;min-width:0"><b>${esc(u.nama)}</b><small>ID: ${esc(u.id)} · ADMIN</small></div></div>
+      ${warnPw}
+      <div class="mgt">Item stok</div><div class="plist">
+        ${it('add', '➕', '#dcfce7', 'Tambah item', 'Item baru + tab kad stok')}
+        ${it('items', '📦', '#e0f2fe', 'Urus item', `${S.items.length} item · edit / nyahaktif`)}
+        ${it('adjust', '⚖️', '#ede9fe', 'Larasan stok', 'Stock take — baki fizikal')}
+        ${it('qr', '🔳', '#f1f5f9', 'Label QR item', 'Cetak label MASUK / KELUAR')}</div>
+      <div class="mgt">Staf & akses</div><div class="plist">
+        ${it('staf', '👥', '#fef3c7', 'Urus staf', 'Tambah, kemas kini, buang staf')}
+        ${it('akses', '🔑', '#fee2e2', 'Kod akses', 'Kod untuk masuk sistem')}
+        ${it('pw', '🔒', '#e2e8f0', 'Tukar password', 'Password akaun anda')}</div>
+      <div class="mgt">Data</div><div class="plist">
+        ${it('io', '⇅', '#e0e7ff', 'Import / Export', 'CSV item, staf, log transaksi')}
+        ${it('set', '⚙️', '#f1f5f9', 'Tetapan', 'Kategori item')}
+        ${S.sheetUrl ? `<a class="mi" href="${esc(S.sheetUrl)}" target="_blank"><span class="ic" style="background:#dcfce7">📊</span><span class="tx">Buka Google Sheet<small>Fail data sebenar</small></span><span class="ch">↗</span></a>` : ''}
+        ${it('recalc', '🔄', '#f1f5f9', 'Kira semula semua baki', 'Selepas edit manual dalam Sheet')}
+        ${it('migpeg', '🪪', '#f1f5f9', 'Tukar nama pegawai lama → ID', 'Rekod lama guna nama penuh')}</div>
+      <div class="plist" style="margin-top:18px">${it('logout', '⎋', '#fee2e2', 'Log keluar', '', 'danger')}</div>`;
+  } else {
+    const parent = { edit: 'items', stafEdit: 'staf' }[S.adm] || 'menu';
+    const title = { add: 'Tambah item', edit: 'Edit item', items: 'Urus item', adjust: 'Larasan stok', qr: 'Label QR item', staf: 'Urus staf',
+      stafEdit: S.editStaf ? 'Kemas kini staf' : 'Tambah staf', akses: 'Kod akses', pw: 'Tukar password', io: 'Import / Export', set: 'Tetapan' }[S.adm] || '';
+    $('#view').innerHTML = `<div class="subhead np"><button class="back" id="admback">‹ ${parent === 'menu' ? 'Admin' : parent === 'items' ? 'Urus item' : 'Urus staf'}</button><h2>${title}</h2></div>
+      ${S.adm === 'pw' ? warnPw : ''}<div id="adm"></div>`;
+    $('#admback').onclick = () => { S.adm = parent; S.editKod = null; vAdmin(); };
+  }
   document.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => {
-    if (b.dataset.a === 'logout') { run('logout', S.token).catch(() => {}); saveTok(null); S.sheetUrl = ''; S.user = null; S.stafList = null; S.adm = 'menu'; return vLogin(); }
-    S.adm = b.dataset.a; S.editKod = null; vAdmin();
+    const a = b.dataset.a;
+    if (a === 'logout') { run('logout', S.token).catch(() => {}); saveTok(null); S.sheetUrl = ''; S.user = null; S.stafList = null; S.adm = 'menu'; return vLogin(); }
+    if (a === 'recalc') {
+      if (!confirm('Kira semula baki semua item berdasarkan kad stok setiap tab? (Guna jika ada edit manual dalam Google Sheet)')) return;
+      try { const n = await run('recalcAllWeb', S.token); toast(`Baki ${n} item dikira semula.`); load(true); } catch(er) { fail(er); }
+      return;
+    }
+    if (a === 'migpeg') {
+      if (!confirm('Tukar semua Nama Pegawai dalam kad stok & log (nama penuh) kepada ID staf?')) return;
+      try { const n = await run('migratePegawaiWeb', S.token); toast(n + ' rekod ditukar kepada ID staf.'); } catch(er) { fail(er); }
+      return;
+    }
+    S.adm = a; S.editKod = null; S.editStaf = null; vAdmin();
   });
-  const mp = $('#migpeg');
-  if (mp) mp.onclick = async e => {
-    e.preventDefault();
-    if (!confirm('Tukar semua Nama Pegawai dalam kad stok & log (nama penuh) kepada ID staf?')) return;
-    try { const n = await run('migratePegawaiWeb', S.token); toast(n + ' rekod ditukar kepada ID staf.'); } catch(er) { fail(er); }
-  };
-  const rc = $('#recalc');
-  if (rc) rc.onclick = async e => {
-    e.preventDefault();
-    if (!confirm('Kira semula baki semua item berdasarkan kad stok setiap tab? (Guna jika ada edit manual dalam Google Sheet)')) return;
-    try { const n = await run('recalcAllWeb', S.token); toast(`Baki ${n} item dikira semula.`); load(true); } catch(er) { fail(er); }
-  };
-  ({ menu: () => { $('#adm').innerHTML = '<div class="box mu">Pilih fungsi di atas.</div>'; },
-     add: () => itemForm(null), edit: () => itemForm(S.editKod), items: admItems, qr: admQr, staf: admStaf, stafEdit: () => stafForm(S.editStaf), io: admIO, akses: admAkses, adjust: admAdjust, set: admSet, pw: admPw })[S.adm]();
+  if (S.adm === 'menu') return;
+  ({ add: () => itemForm(null), edit: () => itemForm(S.editKod), items: admItems, qr: admQr, staf: admStaf, stafEdit: () => stafForm(S.editStaf), io: admIO, akses: admAkses, adjust: admAdjust, set: admSet, pw: admPw })[S.adm]();
 }
 
 function vLogin(){
@@ -735,18 +837,15 @@ async function admStaf(force){
     try { S.stafList = await run('listStaf', S.token); } catch(e) { return fail(e); }
   }
   const L = S.stafList;
-  $('#adm').innerHTML = `<div style="display:flex;gap:8px;margin-bottom:8px">
-      <input id="sq" type="search" placeholder="Cari staf…"><button class="btn" id="sadd" style="white-space:nowrap">+ Tambah staf</button></div>
-    <p class="mu" style="margin:0 0 8px">${L.length} staf · ${L.filter(x => x.peranan === 'ADMIN' && x.aktif).length} admin aktif. Peranan <b>ADMIN</b> boleh log masuk ke menu Admin. Nama staf aktif keluar sebagai cadangan "Nama pegawai".</p>
-    <div class="tw"><table id="stab"><tr><th>ID</th><th>Nama</th><th>Jawatan</th><th>No. Tel</th><th>Peranan</th><th>Status</th><th></th></tr>
-    ${L.map(x => `<tr data-s="${esc((x.id + ' ' + x.nama + ' ' + x.jawatan).toLowerCase())}"><td>${esc(x.id)}</td><td><b>${esc(x.nama)}</b>${S.user && x.id === S.user.id ? ' <span class="mu">(anda)</span>' : ''}</td>
-      <td>${esc(x.jawatan)}</td><td>${esc(x.tel)}</td>
-      <td><span class="bd ${x.peranan === 'ADMIN' ? 'ADM' : 'X'}">${x.peranan}</span>${x.peranan === 'ADMIN' && !x.hasPw ? '<br><span class="mu">tiada password</span>' : ''}</td>
-      <td><span class="bd ${x.aktif ? 'OK' : 'X'}">${x.aktif ? 'AKTIF' : 'TIDAK AKTIF'}</span></td>
-      <td style="white-space:nowrap"><button class="btn sec sm" data-se="${esc(x.id)}">Kemas kini</button>
-        ${S.user && x.id === S.user.id ? '' : `<button class="btn sm" style="background:#fee2e2;color:#b91c1c" data-sd="${esc(x.id)}">Buang</button>`}</td></tr>`).join('')}
-    </table></div>`;
-  $('#sq').oninput = e => { const q = e.target.value.toLowerCase(); document.querySelectorAll('#stab tr[data-s]').forEach(r => r.style.display = r.dataset.s.includes(q) ? '' : 'none'); };
+  $('#adm').innerHTML = `<div class="sbar"><input id="sq" type="search" placeholder="Cari staf…"><button class="btn" id="sadd">+ Staf</button></div>
+    <p class="mu" style="margin:0 0 8px">${L.length} staf · ${L.filter(x => x.peranan === 'ADMIN' && x.aktif).length} admin aktif. ID staf dipapar sebagai Nama Pegawai dalam kad stok.</p>
+    <div class="plist" id="stab">${L.map(x => `<div class="prow" data-s="${esc((x.id + ' ' + x.nama + ' ' + x.jawatan).toLowerCase())}">
+      <div class="pl"><b>${esc(x.nama)}${S.user && x.id === S.user.id ? ' <span class="mu" style="font-weight:400">(anda)</span>' : ''}</b>
+        <small>ID: <b style="display:inline;font-size:12.5px;color:var(--tx)">${esc(x.id.toUpperCase())}</b>${x.jawatan ? ' · ' + esc(x.jawatan) : ''}${x.tel ? ' · ' + esc(x.tel) : ''}</small>
+        <div style="margin-top:4px"><span class="bd ${x.peranan === 'ADMIN' ? 'ADM' : 'X'}">${x.peranan}</span> <span class="bd ${x.aktif ? 'OK' : 'X'}">${x.aktif ? 'AKTIF' : 'TIDAK AKTIF'}</span>${x.peranan === 'ADMIN' && !x.hasPw ? ' <span class="mu">· tiada password</span>' : ''}</div></div>
+      <div class="acts"><button class="btn sec sm" data-se="${esc(x.id)}">Edit</button>
+        ${S.user && x.id === S.user.id ? '' : `<button class="btn sm del" data-sd="${esc(x.id)}">Buang</button>`}</div></div>`).join('')}</div>`;
+  $('#sq').oninput = e => { const q = e.target.value.toLowerCase(); document.querySelectorAll('#stab [data-s]').forEach(r => r.style.display = r.dataset.s.includes(q) ? '' : 'none'); };
   $('#sadd').onclick = () => { S.adm = 'stafEdit'; S.editStaf = null; vAdmin(); };
   $('#stab').onclick = async e => {
     const ed = e.target.closest('[data-se]'), del = e.target.closest('[data-sd]');
@@ -764,7 +863,7 @@ function stafForm(id){
   const x = id ? (S.stafList || []).find(v => v.id === id) : null;
   const isMe = x && S.user && x.id === S.user.id;
   $('#adm').innerHTML = `<div class="box" style="max-width:560px">
-    <b>${x ? 'Kemas kini staf: ' + esc(x.nama) : 'Tambah staf baru'}</b>
+    ${x ? `<b>${esc(x.nama)}</b>` : '<span class="mu">Isi maklumat staf baru.</span>'}
     <div class="row2">
       <div><label>ID pengguna <span class="mu" style="font-weight:400">— dipapar dalam kad stok</span></label><input id="xid" maxlength="30" autocapitalize="none" value="${x ? esc(x.id) : ''}" ${x ? 'disabled' : 'placeholder="Kosong = auto dari nama"'}></div>
       <div><label>Peranan</label><select id="xper" ${isMe ? 'disabled' : ''}><option value="STAF">STAF</option><option value="ADMIN" ${x && x.peranan === 'ADMIN' ? 'selected' : ''}>ADMIN</option></select></div>
@@ -963,52 +1062,162 @@ function itemForm(kod){
 }
 
 function admItems(){
-  const list = S.items.slice().sort((a, b) => (a.kategori || '').localeCompare(b.kategori || '') || a.nama.localeCompare(b.nama));
-  $('#adm').innerHTML = `<input id="aq" type="search" placeholder="Cari item…" style="margin-bottom:8px">
-    <div class="tw"><table id="atab"><tr><th>Kod</th><th>Perihal stok</th><th>Kategori</th><th class="n">Baki</th><th class="n">Min</th><th>Status</th><th></th></tr>
-    ${list.map(i => `<tr data-s="${esc((i.nama + ' ' + i.kod + ' ' + i.kategori).toLowerCase())}"><td>${esc(i.kod)}</td><td>${esc(i.nama)}</td><td>${esc(i.kategori)}</td>
-      <td class="n">${fmtN(i.baki)} ${esc(i.unit)}</td><td class="n">${fmtN(i.min)}</td><td><span class="bd ${stCls(i)}">${stTxt(i)}</span></td>
-      <td><button class="btn sec sm" data-e="${esc(i.kod)}">Edit</button></td></tr>`).join('')}
-    </table></div>${list.length ? '' : '<p class="mu">Belum ada item.</p>'}`;
-  $('#aq').oninput = e => { const q = e.target.value.toLowerCase(); document.querySelectorAll('#atab tr[data-s]').forEach(r => r.style.display = r.dataset.s.includes(q) ? '' : 'none'); };
-  $('#atab').onclick = e => { const b = e.target.closest('[data-e]'); if (b) { S.adm = 'edit'; S.editKod = b.dataset.e; vAdmin(); } };
+  const list = S.items.slice().sort((a, b) => (a.aktif === b.aktif ? 0 : a.aktif ? -1 : 1) || (a.kategori || '').localeCompare(b.kategori || '') || a.nama.localeCompare(b.nama));
+  $('#adm').innerHTML = `<div class="sbar"><input id="aq" type="search" placeholder="Cari item / kod / kategori…"><button class="btn" id="aadd">+ Item</button></div>
+    <p class="mu" style="margin:0 0 8px">${list.length} item · ketik item untuk edit</p>
+    ${list.length ? `<div class="plist" id="atab">${list.map(i => `<button class="prow" data-e="${esc(i.kod)}" data-s="${esc((i.nama + ' ' + i.kod + ' ' + i.kategori).toLowerCase())}">
+      <div class="pl"><b>${esc(i.nama)}</b><small>${esc(i.kod)} · ${esc(i.kategori || '-')} · min ${fmtN(i.min)}</small></div>
+      <div class="pr"><b>${fmtN(i.baki)}</b> <small style="display:inline">${esc(i.unit)}</small><br><span class="bd ${stCls(i)}">${stTxt(i)}</span></div>
+      <span class="ch">›</span></button>`).join('')}</div>` : '<div class="box mu">Belum ada item.</div>'}`;
+  $('#aq').oninput = e => { const q = e.target.value.toLowerCase(); document.querySelectorAll('#atab [data-s]').forEach(r => r.style.display = r.dataset.s.includes(q) ? '' : 'none'); };
+  $('#aadd').onclick = () => { S.adm = 'add'; vAdmin(); };
+  if ($('#atab')) $('#atab').onclick = e => { const b = e.target.closest('[data-e]'); if (b) { S.adm = 'edit'; S.editKod = b.dataset.e; vAdmin(); } };
 }
+
+/* ---------- Label QR: A4 atau sticker Zebra (GK420t, 203 dpi) ---------- */
+const ZSIZES = [['50x25', '50 × 25 mm'], ['50x30', '50 × 30 mm'], ['60x40', '60 × 40 mm'], ['75x50', '75 × 50 mm'], ['100x50', '100 × 50 mm'], ['custom', 'Saiz lain…']];
+function lblPref(){ try { return Object.assign({ mode: 'a4', a4: 'sederhana', z: '50x30', w: 50, h: 30, copies: 1 }, JSON.parse(ls.get('estok_lbl') || '{}')); } catch(e) { return { mode: 'a4', a4: 'sederhana', z: '50x30', w: 50, h: 30, copies: 1 }; } }
+function lblSave(p){ ls.set('estok_lbl', JSON.stringify(p)); }
 
 function admQr(){
   const act = S.items.filter(i => i.aktif).sort((a, b) => (a.kategori || '').localeCompare(b.kategori || '') || a.nama.localeCompare(b.nama));
-  $('#adm').innerHTML = `<div class="box np"><b>Label QR item</b>
-    <p class="mu" style="margin:4px 0 0">Setiap item ada satu QR. Bila diimbas dengan kamera telefon, item terus dibuka dengan butang MASUK / KELUAR. Tampal label di rak atau kotak item.</p>
-    <div class="info" style="margin-top:10px;font-size:12.5px">QR menghala ke: <b>${esc(PAGE_URL)}</b>?item=KOD — kod akses tetap diminta jika peranti belum simpan kod.</div>
+  const P = lblPref();
+  $('#adm').innerHTML = `<div class="box np">
+    <p class="mu" style="margin:0">Setiap item ada satu QR. Bila diimbas dengan kamera telefon, item terus dibuka dengan butang MASUK / KELUAR.</p>
+    <label>Jenis cetakan</label>
+    <div class="seg" id="qmode"><button data-m="a4" class="${P.mode === 'a4' ? 'on T' : ''}">📄 Kertas A4</button><button data-m="zebra" class="${P.mode === 'zebra' ? 'on T' : ''}">🏷️ Sticker Zebra</button></div>
+    <div id="qopt"></div>
     <div class="row2"><div><label>Kategori</label><select id="qk"><option value="">Semua kategori</option>${S.kategori.map(k => `<option>${esc(k)}</option>`).join('')}</select></div>
-    <div><label>Saiz label</label><select id="qs"><option value="kecil">Kecil (4 × 6 setiap A4)</option><option value="sederhana" selected>Sederhana (3 × 4 setiap A4)</option><option value="besar">Besar (2 × 3 setiap A4)</option></select></div></div>
-    <label class="chk"><input type="checkbox" id="qall" checked> Pilih semua</label>
-    <div id="qlist" style="max-height:40vh;overflow:auto;margin-top:6px"></div>
-    <button id="qbtn" class="btn full" style="margin-top:14px">Papar &amp; cetak label</button></div>`;
+      <div><label>&nbsp;</label><label class="chk" style="margin:0;min-height:46px"><input type="checkbox" id="qall" checked> Pilih semua</label></div></div>
+    <div id="qlist" class="plist" style="max-height:40vh;overflow:auto;margin-top:8px"></div>
+    <button id="qbtn" class="btn full" style="margin-top:14px">Seterusnya ›</button></div>`;
+  const opt = () => {
+    const z = P.mode === 'zebra';
+    $('#qopt').innerHTML = z ? `
+      <div class="row2"><div><label>Saiz sticker</label><select id="qz">${ZSIZES.map(([v, t]) => `<option value="${v}" ${v === P.z ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
+        <div><label>Salinan setiap item</label><input id="qc" type="number" min="1" max="50" value="${P.copies}" inputmode="numeric"></div></div>
+      <div class="row2" id="qwh" style="${P.z === 'custom' ? '' : 'display:none'}"><div><label>Lebar (mm)</label><input id="qw" type="number" min="25" max="104" value="${P.w}"></div><div><label>Tinggi (mm)</label><input id="qh" type="number" min="15" max="150" value="${P.h}"></div></div>
+      <p class="mu" style="font-size:12.5px;margin:8px 0 0">GK420t: lebar maksimum 104 mm. Saiz mesti sama dengan sticker dalam printer.</p>`
+      : `<label>Saiz label A4</label><select id="qs"><option value="kecil" ${P.a4 === 'kecil' ? 'selected' : ''}>Kecil (4 × 6 setiap A4)</option><option value="sederhana" ${P.a4 === 'sederhana' ? 'selected' : ''}>Sederhana (3 × 4 setiap A4)</option><option value="besar" ${P.a4 === 'besar' ? 'selected' : ''}>Besar (2 × 3 setiap A4)</option></select>`;
+    if (z) $('#qz').onchange = () => { $('#qwh').style.display = $('#qz').value === 'custom' ? '' : 'none'; };
+  };
+  document.querySelectorAll('#qmode button').forEach(b => b.onclick = () => {
+    P.mode = b.dataset.m; document.querySelectorAll('#qmode button').forEach(x => x.className = x === b ? 'on T' : ''); opt();
+  });
   const draw = () => {
     const k = $('#qk').value;
-    $('#qlist').innerHTML = act.filter(i => !k || i.kategori === k).map(i =>
-      `<label class="chk" style="margin:6px 0;font-weight:400"><input type="checkbox" class="qi" value="${esc(i.kod)}" ${$('#qall').checked ? 'checked' : ''}> ${esc(i.kod)} · ${esc(i.nama)}</label>`).join('') || '<p class="mu">Tiada item.</p>';
+    const L = act.filter(i => !k || i.kategori === k);
+    $('#qlist').innerHTML = L.map(i => `<label class="prow" style="cursor:pointer"><input type="checkbox" class="qi" value="${esc(i.kod)}" ${$('#qall').checked ? 'checked' : ''}>
+      <div class="pl"><b>${esc(i.nama)}</b><small>${esc(i.kod)}${i.lokasi ? ' · ' + esc(i.lokasi) : ''}</small></div></label>`).join('') || '<div class="prow mu">Tiada item.</div>';
   };
-  $('#qk').onchange = draw; $('#qall').onchange = draw; draw();
+  $('#qk').onchange = draw; $('#qall').onchange = draw; opt(); draw();
   $('#qbtn').onclick = () => {
     const kods = [...document.querySelectorAll('.qi:checked')].map(x => x.value);
     if (!kods.length) return toast('Pilih sekurang-kurangnya satu item.', true);
-    printLabels(kods, $('#qs').value);
+    if (P.mode === 'zebra') {
+      P.z = $('#qz').value; P.copies = Math.min(50, Math.max(1, parseInt($('#qc').value, 10) || 1));
+      if (P.z === 'custom') { P.w = Math.min(104, Math.max(25, Number($('#qw').value) || 50)); P.h = Math.min(150, Math.max(15, Number($('#qh').value) || 30)); }
+    } else P.a4 = $('#qs').value;
+    lblSave(P);
+    printLabels(kods);
   };
 }
 
-function printLabels(kods, size){
-  const items = kods.map(itemBy).filter(Boolean);
-  modal(`<div class="mh np"><div><b>Label QR (${items.length})</b><br><span class="mu">Cetak pada kertas A4 / sticker. Gunting ikut garisan putus-putus.</span></div><button class="x" data-close>×</button></div>
-    <div class="np" style="margin:10px 0"><button class="btn" onclick="window.print()">Cetak / Simpan PDF</button></div>
-    <div class="labels ${esc(size)}">${items.map(i => `<div class="lbl">
-      <div class="lq">${QR.svg(qrUrl(i.kod), 1)}</div>
+function zSize(P){ if (P.z === 'custom') return [P.w, P.h]; const [w, h] = P.z.split('x').map(Number); return [w, h]; }
+const zTxt = s => String(s == null ? '' : s).replace(/[\^~\\]/g, ' ').replace(/\s+/g, ' ').trim();
+
+/** Jana ZPL untuk Zebra 203 dpi (GK420t): QR kiri + teks kanan */
+function zplFor(items, P){
+  const [wmm, hmm] = zSize(P), D = 8; // 8 dot/mm = 203 dpi
+  const W = Math.round(wmm * D), H = Math.round(hmm * D), copies = P.copies || 1;
+  return items.map(i => {
+    const url = qrUrl(i.kod), n = QR.encode(url).size;
+    const mag = Math.max(1, Math.min(10, Math.floor((H - 28) / n)));
+    const qs = n * mag, qx = 14, qy = Math.max(4, Math.round((H - qs) / 2) - 8);
+    const tx = qx + qs + 16, tw = Math.max(60, W - tx - 12);
+    const f = Math.max(18, Math.min(44, Math.round(H / 8))), fs = Math.max(14, Math.round(f * 0.68));
+    let y = Math.max(10, Math.round(H * 0.07));
+    const out = ['^XA', '^CI28', `^PW${W}`, `^LL${H}`, '^LH0,0',
+      `^FO${qx},${qy}^BQN,2,${mag}^FDMA,${url}^FS`,
+      `^FO${tx},${y}^A0N,${fs},${fs}^FDe-Stok HDU - HSAS^FS`];
+    y += fs + 6;
+    out.push(`^FO${tx},${y}^A0N,${f},${f}^FB${tw},2,2,L,0^FD${zTxt(i.nama)}^FS`); y += f * 2 + 6;
+    out.push(`^FO${tx},${y}^A0N,${fs},${fs}^FB${tw},1,0,L,0^FD${zTxt(i.kod)}${i.unit ? ' - ' + zTxt(i.unit) : ''}^FS`); y += fs + 4;
+    if (i.lokasi && y + fs * 2 + 10 < H) { out.push(`^FO${tx},${y}^A0N,${fs},${fs}^FB${tw},1,0,L,0^FD${zTxt(i.lokasi)}^FS`); y += fs + 4; }
+    const by = H - fs - 14, bw = Math.min(tw, Math.round(fs * 9.5));
+    if (by > y) out.push(`^FO${tx},${by - 4}^GB${bw},${fs + 8},${fs + 8}^FS`, `^FO${tx},${by}^A0N,${fs},${fs}^FR^FB${bw},1,0,C,0^FDMASUK / KELUAR^FS`);
+    out.push(`^PQ${copies},0,1,Y`, '^XZ');
+    return out.join('\n');
+  }).join('\n');
+}
+
+/** Hantar ZPL terus ke printer melalui apps Zebra Browser Print (dipasang pada PC) */
+async function zebraSend(zpl){
+  let last;
+  for (const base of ['http://127.0.0.1:9100', 'https://127.0.0.1:9101', 'http://localhost:9100']) {
+    try {
+      const t = await (await fetch(base + '/default?type=printer')).text();
+      if (!t || !t.trim()) throw new Error('Tiada printer lalai dalam Zebra Browser Print.');
+      const dev = JSON.parse(t);
+      const r = await fetch(base + '/write', { method: 'POST', body: JSON.stringify({ device: dev, data: zpl }) });
+      if (!r.ok) throw new Error('Printer menolak data (' + r.status + ').');
+      return dev.name || 'Zebra';
+    } catch(e) { last = e; if (/Tiada printer|menolak/.test(e.message)) throw e; }
+  }
+  throw new Error('Zebra Browser Print tidak dapat dihubungi. Pastikan apps Zebra Browser Print dipasang & sedang berjalan pada PC ini, laman ini dibenarkan (Accept), dan guna Chrome/Edge di PC.');
+}
+
+function dl(name, txt, type){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: type || 'text/plain' }));
+  a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+
+function printLabels(kods){
+  const items = kods.map(itemBy).filter(Boolean), P = lblPref();
+  const lblBody = i => `<div class="lq">${QR.svg(qrUrl(i.kod), 1)}</div>
       <div class="lt"><div class="lh">e-Stok HDU · HSAS</div><div class="ln">${esc(i.nama)}</div>
         <div class="lk">${esc(i.kod)}${i.unit ? ' · ' + esc(i.unit) : ''}</div>${i.lokasi ? `<div class="lk">${esc(i.lokasi)}</div>` : ''}
-        <div class="la"><span class="in">MASUK</span><span class="out">KELUAR</span></div><div class="lf">Imbas untuk rekod</div></div></div>`).join('')}</div>`);
-  document.body.classList.add('printlbl');
+        <div class="la"><span class="in">MASUK</span><span class="out">KELUAR</span></div><div class="lf">Imbas untuk rekod</div></div>`;
+  const ps = $('#pagesize'); if (ps) ps.remove();
+  if (P.mode === 'zebra') {
+    const [w, h] = zSize(P), copies = P.copies || 1;
+    const st = document.createElement('style'); st.id = 'pagesize';
+    const k = Math.max(0.8, Math.min(2.2, h / 30, (w - Math.max(10, h - 6)) / 26));
+    st.textContent = `@media print{@page{size:${w}mm ${h}mm;margin:0}} .zl{width:${w}mm;height:${h}mm;--k:${k.toFixed(2)}} .zl .lq{width:${Math.max(10, h - 6)}mm}`;
+    document.head.appendChild(st);
+    const many = items.flatMap(i => Array(copies).fill(i));
+    const zBody = i => `<div class="lq">${QR.svg(qrUrl(i.kod), 1)}</div>
+      <div class="lt"><div class="lh">e-Stok HDU · HSAS</div><div class="ln">${esc(i.nama)}</div>
+        <div class="lk">${esc(i.kod)}${i.unit ? ' · ' + esc(i.unit) : ''}</div>${i.lokasi ? `<div class="lk">${esc(i.lokasi)}</div>` : ''}
+        <div class="la"><span>MASUK / KELUAR</span></div></div>`;
+    modal(`<div class="mh np"><div><b>Sticker Zebra ${w} × ${h} mm</b><br><span class="mu">${items.length} item × ${copies} salinan = ${many.length} sticker</span></div><button class="x" data-close>×</button></div>
+      <div class="np zbtns">
+        <button class="btn" id="zp1">🖨️ Cetak (driver ZDesigner)</button>
+        <button class="btn sec" id="zp2">⚡ Hantar terus ZPL (Zebra Browser Print)</button>
+        <button class="btn sec" id="zp3">⬇ Muat turun fail .zpl</button>
+      </div>
+      <details class="np" style="margin:4px 0 10px"><summary class="mu" style="cursor:pointer">Tetapan printer GK420t (baca sekali)</summary>
+        <div class="info" style="font-size:13px">• <b>Cetak (driver)</b>: Printer → <b>ZDesigner GK420t</b>, Paper size <b>${w} × ${h} mm</b>, Margin <b>None</b>, Scale <b>100%</b>, matikan <i>Headers and footers</i>.<br>
+        • Dalam <i>Printing Preferences</i> driver: Page Setup = ${w} × ${h} mm, Orientation Landscape jika perlu.<br>
+        • Jika sticker tersasar / langkau: tekan & tahan butang FEED sehingga lampu berkelip <b>sekali</b>, lepaskan — printer akan kalibrasi saiz sticker.<br>
+        • <b>Hantar terus ZPL</b> paling tepat & laju — perlu apps percuma <b>Zebra Browser Print</b> dipasang pada PC yang disambung ke printer (Chrome/Edge).</div></details>
+      <div class="zlabels">${many.map(i => `<div class="zl">${zBody(i)}</div>`).join('')}</div>`);
+    document.body.classList.add('printlbl', 'printz');
+    $('#zp1').onclick = () => window.print();
+    $('#zp2').onclick = async () => {
+      const b = $('#zp2'); busy(b, true, 'Menghantar…');
+      try { const n = await zebraSend(zplFor(items, P)); toast(`${many.length} sticker dihantar ke ${n}.`); } catch(e) { toast(e.message, true); }
+      busy(b, false);
+    };
+    $('#zp3').onclick = () => dl(`label-qr-${w}x${h}.zpl`, zplFor(items, P));
+  } else {
+    modal(`<div class="mh np"><div><b>Label QR (${items.length})</b><br><span class="mu">Cetak pada kertas A4 / sticker A4. Gunting ikut garisan putus-putus.</span></div><button class="x" data-close>×</button></div>
+      <div class="np" style="margin:10px 0"><button class="btn" onclick="window.print()">Cetak / Simpan PDF</button></div>
+      <div class="labels ${esc(P.a4)}">${items.map(i => `<div class="lbl">${lblBody(i)}</div>`).join('')}</div>`);
+    document.body.classList.add('printlbl');
+  }
   const ov = $('#ovl .ov'); const old = ov.onclick;
-  ov.onclick = e => { if (e.target.classList.contains('ov') || e.target.closest('[data-close]')) document.body.classList.remove('printlbl'); old(e); };
+  ov.onclick = e => { if (e.target.classList.contains('ov') || e.target.closest('[data-close]')) { document.body.classList.remove('printlbl', 'printz'); const x = $('#pagesize'); if (x) x.remove(); } old(e); };
 }
 
 function admAdjust(){
